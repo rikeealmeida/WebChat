@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weellu_web/app/constants/colors.dart';
+import 'package:weellu_web/app/constants/config.dart';
 
 final lightTheme = ThemeData(
   colorScheme: const ColorScheme.light(
@@ -10,24 +10,25 @@ final lightTheme = ThemeData(
   // scaffoldBackgroundColor: Colors.white,
   // primaryColor: Colors.green,
   // primarySwatch: Colors.green,
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
     elevation: 0,
-    backgroundColor: AppColors.mainColor,
+    backgroundColor: Config.colors.mainColor,
     centerTitle: true,
     titleTextStyle: TextStyle(
       fontWeight: FontWeight.w700,
       height: 1.9,
-      color: AppColors.titleColor,
+      color: Config.colors.titleColor,
       fontSize: 22,
     ),
   ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: (AppColors.mainColor),
-    foregroundColor: AppColors.mainBlackColor,
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: (Config.colors.mainColor),
+    foregroundColor: Config.colors.mainBlackColor,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+      backgroundColor:
+          MaterialStateProperty.all<Color>(Config.colors.mainColor),
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -38,9 +39,10 @@ final lightTheme = ThemeData(
     style: ButtonStyle(
       shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
       overlayColor: MaterialStateProperty.all<Color>(
-          AppColors.mainColor.withOpacity(0.2)),
+          Config.colors.mainColor.withOpacity(0.2)),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-      foregroundColor: MaterialStateProperty.all<Color>(AppColors.mainColor),
+      foregroundColor:
+          MaterialStateProperty.all<Color>(Config.colors.mainColor),
     ),
   ),
   primaryColor: const Color(0xFF1A746B),
@@ -121,8 +123,8 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: AppColors.mainColor,
+  appBarTheme: AppBarTheme(
+    backgroundColor: Config.colors.mainColor,
     elevation: 1,
     centerTitle: true,
     // titleTextStyle: GoogleFonts.tajawal(
