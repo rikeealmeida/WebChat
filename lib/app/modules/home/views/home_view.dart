@@ -25,7 +25,7 @@ class HomeView extends GetView<HomeController> {
             if (Responsive.isDesktop(context))
               const Expanded(
                 flex: 2,
-                child: SideBar(),
+                child: SideBar(), 
               ),
             const Expanded(
               flex: 4,

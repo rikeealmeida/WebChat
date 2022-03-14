@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:weellu_web/app/constants/config.dart';
-import 'package:weellu_web/app/modules/home/components/button.dart';
-import 'package:weellu_web/app/modules/home/components/cdropdown.dart';
-import 'package:weellu_web/app/modules/home/components/csearch.dart';
+import 'package:weellu_web/app/data/models/msg_model_list.dart';
+
+import '../../widgets/button.dart';
+import '../../widgets/cdropdown.dart';
+import '../../widgets/csearch.dart';
+import '../../widgets/msg_item_list.dart';
 
 class ListChat extends StatefulWidget {
   const ListChat({Key key}) : super(key: key);
@@ -12,75 +15,214 @@ class ListChat extends StatefulWidget {
 }
 
 class _ListChatState extends State<ListChat> {
-  String recentValue = "Recent Message";
+  String recentValue = "Mais recentes";
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Config.colors.bodyBackgroundColor.withOpacity(0.5),
-            Config.colors.mainColor.withOpacity(0.5),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: const [0, .5],
-        ),
-      ),
-      child: Column(children: [
-        Container(
-          padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Config.colors.bodyBackgroundColor.withOpacity(0.5),
+                Config.colors.mainColor.withOpacity(0.5),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0, .5],
+            ),
+          ),
+          child: Column(children: [
+            Container(
+              padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Chats",
-                        style: Config.styles.primaryTextStyle.copyWith(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      CustomDropDown(
-                        items: const ["Recent Message", "Old Message"],
-                        onChanged: (e) {
-                          recentValue = e;
-                          setState(() {});
-                        },
-                        value: recentValue,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Mensagens",
+                            style: Config.styles.primaryTextStyle.copyWith(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                          CustomDropDown(
+                            items: const ["Mais recentes", "Mais antigas"],
+                            onChanged: (e) {
+                              recentValue = e;
+                              setState(() {});
+                            },
+                            value: recentValue,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  CustomButton(
-                    title: "New Chat",
-                    prefix: Icons.add,
-                    onTap: () {},
-                  )
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const CustomSearch(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const CustomSearch(),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                children: [],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: ScrollController(),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
+                    children: [
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.SEND,
+                          isSelected: true,
+                          username: 'Henrique Almeida',
+                          statusMessage: "Visto por último 1 minuto atrás",
+                          messageContent:
+                              "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo.",
+                          time: "1 minuto atrás",
+                          profile_asset: Config.assets.user1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          type: MessageType.RECORD,
+                          status: MessageStatus.READ,
+                          isVoice: true,
+                          notif: 2,
+                          username: 'Fulano',
+                          statusMessage: "Visto por último 5 minutos atrás",
+                          messageContent: "Mensagem de voz (01:15)",
+                          time: "3 dias atrás",
+                          profile_asset: Config.assets.user2,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.SEND,
+                          notif: 5,
+                          type: MessageType.VIDEO,
+                          username: 'Fulano 2',
+                          statusMessage: "Gravando mensagem de voz...",
+                          messageContent: "Video",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user4,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.UNREAD,
+                          notif: 5,
+                          type: MessageType.PHOTO,
+                          username: 'Fulano 3',
+                          statusMessage: "Visto por último 5 horas atrás",
+                          messageContent: "Imagem",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user3,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          notif: 5,
+                          type: MessageType.FILE,
+                          username: 'Fulano 4',
+                          statusMessage: "Visto por último 5 horas atrás",
+                          messageContent: "Arquivo",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.SEND,
+                          username: 'Fulano 5',
+                          statusMessage: "Visto por último 5 horas atrás",
+                          messageContent: "Oi!",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user4,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.READ,
+                          username: 'Fulano 6',
+                          statusMessage: "Visto por último 5 horas atrás",
+                          messageContent: "Tudo bem?",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.UNREAD,
+                          username: 'Fulano 7',
+                          statusMessage: "Digitando...",
+                          messageContent: "Como vc tá?",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user1,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          status: MessageStatus.UNSEND,
+                          username: 'Fulano 8',
+                          statusMessage: "Visto por último 3 dias atrás",
+                          messageContent:
+                              "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user3,
+                        ),
+                      ),
+                      MessageItemList(
+                        msg: MessageModelList(
+                          username: 'Fulano 5',
+                          statusMessage: "Online",
+                          messageContent: "Oi!",
+                          time: "1 dia atrás",
+                          profile_asset: Config.assets.user4,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
+          ]),
         ),
-      ]),
-    );
+        floatingActionButton: CustomButton(
+          prefix: Icons.add_comment,
+          onTap: () {},
+        ));
   }
 }

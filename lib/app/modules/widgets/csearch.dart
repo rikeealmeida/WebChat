@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weellu_web/app/constants/config.dart';
-import 'package:weellu_web/app/modules/home/components/cdropdown.dart';
 
 class CustomSearch extends StatefulWidget {
   const CustomSearch({Key key}) : super(key: key);

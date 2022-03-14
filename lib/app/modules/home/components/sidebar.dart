@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weellu_web/app/constants/config.dart';
 
-import 'drawer_item.dart';
+import '../../widgets/drawer_item.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({
@@ -75,7 +75,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           DrawerListTile(
-            title: "Home",
+            title: "Início",
             icon: Icons.home,
             groupValue: MenuItemSelect.HOME,
             value: selectValue,
@@ -83,7 +83,7 @@ class _SideBarState extends State<SideBar> {
             onChanged: onChanged,
           ),
           DrawerListTile(
-            title: "Chat",
+            title: "Chats",
             icon: Icons.chat,
             groupValue: MenuItemSelect.CHAT,
             value: selectValue,
@@ -91,7 +91,7 @@ class _SideBarState extends State<SideBar> {
             onChanged: onChanged,
           ),
           DrawerListTile(
-            title: "Contacts",
+            title: "Contatos",
             icon: Icons.people,
             groupValue: MenuItemSelect.CONTACTS,
             value: selectValue,
@@ -107,7 +107,7 @@ class _SideBarState extends State<SideBar> {
             onChanged: onChanged,
           ),
           DrawerListTile(
-            title: "Notifications",
+            title: "Notificações",
             icon: Icons.notifications,
             groupValue: MenuItemSelect.NOTIIFICATIONS,
             value: selectValue,
@@ -115,7 +115,7 @@ class _SideBarState extends State<SideBar> {
             onChanged: onChanged,
           ),
           DrawerListTile(
-            title: "Settings",
+            title: "Configurações",
             icon: Icons.settings,
             groupValue: MenuItemSelect.SETTINGS,
             press: () {},
