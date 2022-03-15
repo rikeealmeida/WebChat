@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weellu_web/app/constants/config.dart';
 
 final lightTheme = ThemeData(
-  colorScheme: const ColorScheme.light(
-    onSecondary: Colors.white,
-  ),
+  colorScheme: ColorScheme.light(
+      onSecondary: Colors.white, primary: Config.colors.appBarMainColor),
 
   // backgroundColor: Colors.white,
   // scaffoldBackgroundColor: Colors.white,

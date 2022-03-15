@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:weellu_web/app/constants/config.dart';
+import 'package:weellu_web/app/data/models/file.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
+import 'package:weellu_web/app/modules/widgets/chat_text_field.dart';
 import 'package:weellu_web/app/modules/widgets/message_component.dart';
 
 import '../../widgets/button.dart';
@@ -17,7 +20,13 @@ class ChatMessage extends StatefulWidget {
 class _ChatMessageState extends State<ChatMessage> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    bool isMobile = width <= 500;
     return Scaffold(
+      // floatingActionButton: CustomButton(
+      //   onTap: () {},
+      //   prefix: Icons.arrow_downward,
+      // ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -32,9 +41,12 @@ class _ChatMessageState extends State<ChatMessage> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: 50, left: 0, right: 25, bottom: 25),
+            padding: isMobile
+                ? EdgeInsets.zero
+                : EdgeInsets.only(top: 50, left: 0, right: 25, bottom: 25),
             child: Container(
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
@@ -47,17 +59,24 @@ class _ChatMessageState extends State<ChatMessage> {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.fromLTRB(35, 20, 30, 15),
+                    padding:
+                        EdgeInsets.fromLTRB(isMobile ? 10 : 35, 20, 30, 15),
                     decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Config.colors.dividerColor,
-                        ),
-                      ),
+                      color: Config.colors.mainColor.withOpacity(.5),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        if (isMobile)
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(Icons.arrow_back),
+                          ),
                         ItemProfile(
                           msg: MessageModelList(
                               statusMessage: "Visto por último 5 horas atrás",
@@ -84,19 +103,69 @@ class _ChatMessageState extends State<ChatMessage> {
                     ),
                   ),
                   Expanded(
-                      child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
-                      child: Column(
-                        children: [
-                          MessageComponent(
-                            message:
-                                "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
-                          )
-                        ],
+                    child: SingleChildScrollView(
+                      controller: ScrollController(),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
+                        child: Column(
+                          children: [
+                            MessageComponent(
+                              message:
+                                  "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
+                            ),
+                            MessageComponent(
+                              message: "Oi! Tudo bem?",
+                            ),
+                            MessageComponent(
+                              message: "Tudo ótimo, e vc?",
+                              isMe: true,
+                            ),
+                            MessageComponent(
+                              message:
+                                  "Você pode editar essas fotos e enviar novamente para mim? ",
+                              file: MyFile(size: 41.36, name: " Fotos.zip"),
+                              isMe: true,
+                            ),
+                            MessageComponent(
+                              message: "Claro!",
+                            ),
+                            MessageComponent(
+                              message: "Aqui estão as fotos editadas ",
+                              file: MyFile(
+                                  size: 65.36, name: " Fotos editadas.zip"),
+                            ),
+                            MessageComponent(
+                              file: MyFile(
+                                  size: 65.36, name: " Fotos editadas.zip"),
+                            ),
+                            CustomDivider(
+                              date: "3 dias atrás",
+                            ),
+                            MessageComponent(
+                              file: MyFile(
+                                  size: 65.36, name: " Fotos editadas.zip"),
+                              isMe: true,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ))
+                  ),
+                  Container(
+                    margin:
+                        const EdgeInsets.only(left: 40, bottom: 10, right: 30),
+                    child: ChatTextField(
+                      prefix: RBtn2(
+                        icon: Icons.add,
+                        onPressed: () {},
+                      ),
+                      suffix: RBtn2(
+                        icon: FeatherIcons.send,
+                        onPressed: () {},
+                      ),
+                      hintText: "Escreva uma mensagem...",
+                    ),
+                  ),
                 ],
               ),
             ),

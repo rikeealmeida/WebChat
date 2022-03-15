@@ -11,9 +11,13 @@ class MessageModelList {
   bool isFile;
   bool isPhoto;
   bool isVideo;
+  SelectedValue value;
+  final Function(dynamic value) onChanged;
 
   MessageModelList(
       {this.messageContent,
+      this.onChanged,
+      this.value,
       this.type,
       this.time,
       this.status,
@@ -31,3 +35,4 @@ class MessageModelList {
 
 enum MessageType { RECORD, WRITE, LAST_AGO, FILE, PHOTO, VIDEO }
 enum MessageStatus { SEND, RECEIVED, READ, UNREAD, UNSEND }
+enum SelectedValue { SELECTED, UNSELECTED }

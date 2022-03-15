@@ -14,9 +14,13 @@ class MessageComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    bool isMobile = width <= 500;
     return Container(
+      margin: EdgeInsets.only(bottom: 15),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!isMe)
             CircleAvatar(
@@ -34,8 +38,10 @@ class MessageComponent extends StatelessWidget {
                 ),
               Container(
                 constraints: BoxConstraints(
-                  maxWidth: width / 4,
+                  maxWidth: isMobile ? width / 1.6 : width / 4,
                 ),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
                   color: isMe ? Colors.white : Config.colors.mainColor,
                   boxShadow: [
@@ -43,33 +49,33 @@ class MessageComponent extends StatelessWidget {
                       BoxShadow(
                           color:
                               Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10),
                       BoxShadow(
                           color:
                               Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10),
                       BoxShadow(
                           color:
                               Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10)
                     ] else ...[
                       BoxShadow(
                           color: Config.colors.shadowCurrentUserChat
                               .withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10),
                       BoxShadow(
                           color: Config.colors.shadowCurrentUserChat
                               .withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10),
                       BoxShadow(
                           color: Config.colors.shadowCurrentUserChat
                               .withOpacity(.15),
-                          offset: Offset(6, 6),
+                          offset: const Offset(6, 6),
                           blurRadius: 10),
                     ],
                   ],
@@ -120,21 +126,23 @@ class MessageComponent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Colors.white.withOpacity(.5),
+                          if (!isMe) ...[
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: Colors.white.withOpacity(.5),
+                              ),
+                              child: const Icon(
+                                FeatherIcons.file,
+                                size: 15,
+                                color: Colors.white,
+                              ),
                             ),
-                            child: const Icon(
-                              FeatherIcons.file,
-                              size: 15,
-                              color: Colors.white,
+                            SizedBox(
+                              width: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
+                          ],
                           Column(
                             children: [
                               Text(
@@ -146,7 +154,7 @@ class MessageComponent extends StatelessWidget {
                                         : Config.colors.textColorMenu),
                               ),
                               Text(
-                                "${file.size} Mb",
+                                " ${file.size} Mb ",
                                 style: Config.styles.primaryTextStyle.copyWith(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
@@ -155,14 +163,33 @@ class MessageComponent extends StatelessWidget {
                                         : Config.colors.textColorMenu),
                               )
                             ],
-                          )
+                          ),
+                          if (isMe) ...[
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                    color: Config.colors.textColorMenu),
+                                color: Colors.white.withOpacity(.5),
+                              ),
+                              child: Icon(
+                                FeatherIcons.file,
+                                size: 15,
+                                color: Config.colors.textColorMenu,
+                              ),
+                            ),
+                          ],
                         ],
                       )
                     ]
                   ],
                 ),
               ),
-              if (isMe) ...[
+              if (!isMe) ...[
                 Icon(
                   FeatherIcons.moreHorizontal,
                   color: Config.colors.textColorMenu,
@@ -248,6 +275,40 @@ class FileWidget extends StatelessWidget {
             color: isMe ? Colors.white : Config.colors.mainColor,
           ),
       ],
+    );
+  }
+}
+
+class CustomDivider extends StatelessWidget {
+  const CustomDivider({Key key, this.date}) : super(key: key);
+
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        children: [
+          Expanded(
+              child: Divider(
+            color: Config.colors.textColorMenu.withOpacity(.15),
+          )),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              date,
+              style: Config.styles.primaryTextStyle.copyWith(
+                  fontSize: 11,
+                  color: Config.colors.textColorMenu.withOpacity(.7)),
+            ),
+          ),
+          Expanded(
+              child: Divider(
+            color: Config.colors.textColorMenu.withOpacity(.15),
+          )),
+        ],
+      ),
     );
   }
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
+import 'package:weellu_web/app/modules/home/components/chat_message.dart';
 import 'package:weellu_web/app/modules/widgets/item_profile.dart';
 
 class MessageItemList extends StatefulWidget {
   final MessageModelList msg;
+  final Function onTap;
 
-  const MessageItemList({Key key, this.msg}) : super(key: key);
+  const MessageItemList({Key key, this.msg, this.onTap}) : super(key: key);
 
   @override
   State<MessageItemList> createState() => _MessageItemListState();
@@ -16,12 +19,16 @@ class MessageItemList extends StatefulWidget {
 class _MessageItemListState extends State<MessageItemList> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
         setState(() {
           widget.msg.notif = null;
           widget.msg.isSelected = !widget.msg.isSelected;
         });
+        if (width <= 1072)
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => ChatMessage()));
       },
       child: Container(
         padding: EdgeInsets.all(10),

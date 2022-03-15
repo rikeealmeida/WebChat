@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   final double radius;
   final IconData prefix;
 
-  CustomButton({Key key, this.onTap, this.radius = 50, this.prefix})
+  CustomButton({Key key, this.onTap, this.radius = 30, this.prefix})
       : super(key: key);
 
   @override
@@ -15,8 +15,10 @@ class CustomButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.only(right: 15, bottom: 35, top: 2),
         child: Container(
+          height: 57,
+          width: 57,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           decoration: BoxDecoration(
               boxShadow: [
@@ -45,13 +47,14 @@ class CustomButton extends StatelessWidget {
                     Config.colors.appBarMainColor,
                   ])),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               if (prefix != null)
                 Icon(
                   prefix,
                   color: Colors.white,
-                  size: 20,
+                  size: 30,
                 ),
             ],
           ),
@@ -150,6 +153,40 @@ class RBtn extends StatelessWidget {
             icon,
             color: Config.colors.textColorMenu,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class RBtn2 extends StatelessWidget {
+  final IconData icon;
+  final Function onPressed;
+  const RBtn2({Key key, this.icon, this.onPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Config.colors.appBarMainColor,
+            Config.colors.appBarMainColor,
+            Config.colors.appBarMainColor
+          ],
+        ),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: RawMaterialButton(
+        onPressed: onPressed,
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 20,
         ),
       ),
     );
