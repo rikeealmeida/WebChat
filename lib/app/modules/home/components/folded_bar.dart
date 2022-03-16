@@ -139,7 +139,7 @@ class _FoldedBarState extends State<FoldedBar> {
             ),
             FoldedItem(
               icon: Icons.logout_outlined,
-              value: selectValue,
+              value: selectValue
             ),
           ],
         ),
