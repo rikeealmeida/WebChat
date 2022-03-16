@@ -7,16 +7,15 @@ class FoldedItem extends StatefulWidget {
     // For selecting those three line once press "Command+D"
 
     this.icon,
-    this.press,
     this.groupValue,
     this.value,
     this.onChanged,
+    this.onTap,
   }) : super(key: key);
-
-  final VoidCallback press;
   final IconData icon;
   final groupValue, value;
   final Function(dynamic value) onChanged;
+  final Function(dynamic theme) onTap;
 
   @override
   State<FoldedItem> createState() => _FoldedItemState();

@@ -3,7 +3,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:weellu_web/app/modules/widgets/folded_item.dart';
 
 import '../../../constants/config.dart';
-import '../../widgets/drawer_item.dart';
 
 class FoldedBar extends StatefulWidget {
   final Function onOpenMenu;
@@ -17,14 +16,19 @@ class FoldedBar extends StatefulWidget {
 }
 
 class _FoldedBarState extends State<FoldedBar> {
+  var selectValue = MenuItemSelect.HOME;
+  onChanged(val) {
+    selectValue = val;
+    setState(() {});
+  }
+
+  changeTheme(theme) {
+    print("Oi");
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    var selectValue = MenuItemSelect.HOME;
-    onChanged(val) {
-      selectValue = val;
-      setState(() {});
-    }
 
     return Container(
       height: height,
@@ -42,9 +46,9 @@ class _FoldedBarState extends State<FoldedBar> {
                       if (widget.onOpenMenu != null)
                         Container(
                           alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.only(top: 20),
+                          margin: const EdgeInsets.only(top: 20, bottom: 10),
                           child: InkWell(
-                            child: Icon(
+                            child: const Icon(
                               FeatherIcons.menu,
                               size: 25,
                               color: Colors.white,
@@ -52,30 +56,30 @@ class _FoldedBarState extends State<FoldedBar> {
                             onTap: widget.onOpenMenu,
                           ),
                         ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image(
-                            image: AssetImage(
-                              "assets/images/5.png",
-                            ),
-                          ),
-                        ),
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
                     ],
                   ),
-                  Divider(
+                  // Container(
+                  //   margin: const EdgeInsets.only(top: 20, bottom: 10),
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.circular(50),
+                  //     child: const Image(
+                  //       image: AssetImage(
+                  //         "assets/images/5.png",
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   height: 40,
+                  //   width: 40,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.transparent,
+                  //     borderRadius: BorderRadius.circular(50),
+                  //   ),
+                  // ),
+                  const Divider(
                     color: Colors.white,
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20, bottom: 20),
+                    margin: const EdgeInsets.only(top: 20, bottom: 20),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: const Image(
@@ -86,55 +90,56 @@ class _FoldedBarState extends State<FoldedBar> {
                     ),
                     height: 40,
                     width: 40,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
+                  ),
+                  Divider(
+                    color: Colors.white,
                   ),
                   FoldedItem(
                     icon: Icons.home,
                     groupValue: MenuItemSelect.HOME,
                     value: selectValue,
-                    press: () {},
                     onChanged: onChanged,
                   ),
                   FoldedItem(
                     icon: Icons.chat,
                     groupValue: MenuItemSelect.CHAT,
                     value: selectValue,
-                    press: () {},
                     onChanged: onChanged,
                   ),
                   FoldedItem(
                     icon: Icons.people,
                     groupValue: MenuItemSelect.CONTACTS,
                     value: selectValue,
-                    press: () {},
                     onChanged: onChanged,
                   ),
                   FoldedItem(
                     icon: Icons.shopping_cart,
                     groupValue: MenuItemSelect.SHOPPING,
                     value: selectValue,
-                    press: () {},
                     onChanged: onChanged,
                   ),
                   FoldedItem(
                     icon: Icons.notifications,
                     groupValue: MenuItemSelect.NOTIIFICATIONS,
                     value: selectValue,
-                    press: () {},
                     onChanged: onChanged,
                   ),
                   FoldedItem(
                     icon: Icons.settings,
                     groupValue: MenuItemSelect.SETTINGS,
-                    press: () {},
                     value: selectValue,
                     onChanged: onChanged,
                   ),
                 ],
               ),
+            ),
+            FoldedItem(
+              icon: Icons.logout_outlined,
+              value: selectValue,
             ),
           ],
         ),

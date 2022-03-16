@@ -46,6 +46,14 @@ class _ChatMessageState extends State<ChatMessage> {
                 : EdgeInsets.only(top: 50, left: 0, right: 25, bottom: 25),
             child: Container(
               decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/pattern-01.png"),
+                  repeat: ImageRepeat.repeat,
+                  colorFilter: ColorFilter.mode(
+                    Colors.orangeAccent.withAlpha(40),
+                    BlendMode.color,
+                  ),
+                ),
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
                 boxShadow: [
@@ -62,7 +70,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     padding:
                         EdgeInsets.fromLTRB(isMobile ? 10 : 35, 20, 30, 15),
                     decoration: BoxDecoration(
-                      color: Config.colors.mainColor.withOpacity(.5),
+                      color: Config.colors.mainColor.withAlpha(200),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(5),
                           topRight: Radius.circular(5)),
@@ -152,8 +160,10 @@ class _ChatMessageState extends State<ChatMessage> {
                     ),
                   ),
                   Container(
-                    margin:
-                        const EdgeInsets.only(left: 40, bottom: 10, right: 30),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    padding: EdgeInsets.only(left: 10, right: 10),
                     child: ChatTextField(
                       prefix: RBtn2(
                         icon: Icons.add,

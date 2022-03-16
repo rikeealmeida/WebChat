@@ -50,14 +50,18 @@ class _ChatTextFieldState extends State<ChatTextField> {
               style: Config.styles.primaryTextStyle
                   .copyWith(color: Config.colors.textColorMenu),
               decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  hintStyle: Config.styles.primaryTextStyle.copyWith(
-                    color: Config.colors.textColorMenu.withOpacity(.5),
-                  ),
-                  suffixIcon: const Icon(FeatherIcons.smile)),
+                hintText: widget.hintText,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                ),
+                hintStyle: Config.styles.primaryTextStyle.copyWith(
+                  color: Config.colors.textColorMenu.withOpacity(.5),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(FeatherIcons.smile),
+                ),
+              ),
             ),
           ),
         ),

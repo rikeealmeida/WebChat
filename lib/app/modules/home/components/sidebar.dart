@@ -32,66 +32,83 @@ class _SideBarState extends State<SideBar> {
           Expanded(
             child: Column(
               children: [
+                Container(
+                    decoration: BoxDecoration(
+                        color: Config.colors.mainColor,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 3,
+                              spreadRadius: .2,
+                              color: Colors.black.withAlpha(100))
+                        ]),
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(
+                        top: 20, bottom: 10, left: 7, right: 7),
+                    child: const Text(
+                      "Weellu",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                    )),
+                // Row(
+                //   children: [
+                //     Container(
+                //       margin:
+                //           const EdgeInsets.only(top: 20, left: 14, bottom: 10),
+                //       child: ClipRRect(
+                //         borderRadius: BorderRadius.circular(50),
+                //         child: const Image(
+                //           image: AssetImage(
+                //             "assets/images/5.png",
+                //           ),
+                //         ),
+                //       ),
+                //       height: 40,
+                //       width: 40,
+                //       decoration: BoxDecoration(
+                //         color: Colors.transparent,
+                //         borderRadius: BorderRadius.circular(50),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                const Divider(
+                  color: Colors.white,
+                ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only( top: 20),
-                      child: InkWell(
-                        child: const Icon(
-                          FeatherIcons.menu,
-                          size: 25,
-                          color: Colors.white,
-                        ),
-                        onTap: widget.onOpenMenu,
-                      ),
-                    ),
-                    DrawerHeader(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Config.colors.mainColor,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 3,
-                              blurStyle: BlurStyle.normal,
-                              color: Colors.black.withAlpha(100),
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: const Image(
-                                  image: AssetImage(
-                                    "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png",
-                                  ),
-                                ),
-                              ),
-                              height: 65,
-                              width: 65,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                "Henrique Almeida dos Santos",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Config.colors.appBarMainColor),
-                              ),
-                            ),
-                          ],
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: const Image(
+                          image: AssetImage(
+                            "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png",
+                          ),
                         ),
                       ),
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
                     ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                        top: 10,
+                      ),
+                      child: const Text(
+                        "Henrique Almeida dos Santos",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.white,
+                    )
                   ],
                 ),
                 DrawerListTile(
