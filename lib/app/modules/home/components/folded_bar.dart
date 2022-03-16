@@ -22,10 +22,6 @@ class _FoldedBarState extends State<FoldedBar> {
     setState(() {});
   }
 
-  changeTheme(theme) {
-    print("Oi");
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -40,44 +36,6 @@ class _FoldedBarState extends State<FoldedBar> {
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      if (widget.onOpenMenu != null)
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: InkWell(
-                            child: const Icon(
-                              FeatherIcons.menu,
-                              size: 25,
-                              color: Colors.white,
-                            ),
-                            onTap: widget.onOpenMenu,
-                          ),
-                        ),
-                    ],
-                  ),
-                  // Container(
-                  //   margin: const EdgeInsets.only(top: 20, bottom: 10),
-                  //   child: ClipRRect(
-                  //     borderRadius: BorderRadius.circular(50),
-                  //     child: const Image(
-                  //       image: AssetImage(
-                  //         "assets/images/5.png",
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   height: 40,
-                  //   width: 40,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.transparent,
-                  //     borderRadius: BorderRadius.circular(50),
-                  //   ),
-                  // ),
-                  const Divider(
-                    color: Colors.white,
-                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 20, bottom: 20),
                     child: ClipRRect(
@@ -137,10 +95,7 @@ class _FoldedBarState extends State<FoldedBar> {
                 ],
               ),
             ),
-            FoldedItem(
-              icon: Icons.logout_outlined,
-              value: selectValue
-            ),
+            FoldedItem(icon: Icons.logout_outlined, value: selectValue),
           ],
         ),
       ),

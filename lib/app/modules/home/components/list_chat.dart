@@ -39,7 +39,7 @@ class _ListChatState extends State<ListChat> {
               ),
               child: Column(children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
+                  padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
                   child: Column(
                     children: [
                       Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weellu_web/app/constants/config.dart';
 
 import '../components/chat_message.dart';
 import '../components/folded_bar.dart';
@@ -22,6 +23,11 @@ class _HomeViewState extends State<HomeView> {
     print(width);
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
       key: _scaffoldKey,
       drawer: width > 1283
           ? Container(

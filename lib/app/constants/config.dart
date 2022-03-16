@@ -74,4 +74,8 @@ class _Color {
   final shadowButtonColor = Color.fromRGBO(42, 139, 242, 1);
   final shadowCurrentUserChat = Color.fromRGBO(112, 124, 151, 1);
   final dividerColor = Color.fromRGBO(112, 124, 151, 0.1);
+  final doubleCheckColor = Color.fromARGB(255, 29, 145, 33);
+  final checkyellowColor = Color.fromARGB(255, 228, 157, 3);
+  final checkRedColor = Color.fromARGB(255, 235, 16, 0);
+  final textBGColor = Color(4291617491);
 }

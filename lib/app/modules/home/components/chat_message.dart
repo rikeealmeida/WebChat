@@ -11,7 +11,9 @@ import '../../widgets/button.dart';
 import '../../widgets/item_profile.dart';
 
 class ChatMessage extends StatefulWidget {
-  const ChatMessage({Key key}) : super(key: key);
+  const ChatMessage({
+    Key key,
+  }) : super(key: key);
 
   @override
   State<ChatMessage> createState() => _ChatMessageState();
@@ -23,10 +25,6 @@ class _ChatMessageState extends State<ChatMessage> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width <= 500;
     return Scaffold(
-      // floatingActionButton: CustomButton(
-      //   onTap: () {},
-      //   prefix: Icons.arrow_downward,
-      // ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -41,16 +39,14 @@ class _ChatMessageState extends State<ChatMessage> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: isMobile
-                ? EdgeInsets.zero
-                : EdgeInsets.only(top: 50, left: 0, right: 25, bottom: 25),
+            padding: isMobile ? EdgeInsets.zero : EdgeInsets.zero,
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/pattern-01.png"),
                   repeat: ImageRepeat.repeat,
                   colorFilter: ColorFilter.mode(
-                    Colors.orangeAccent.withAlpha(40),
+                    Color(4294108880).withOpacity(.5),
                     BlendMode.color,
                   ),
                 ),
@@ -70,10 +66,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     padding:
                         EdgeInsets.fromLTRB(isMobile ? 10 : 35, 20, 30, 15),
                     decoration: BoxDecoration(
-                      color: Config.colors.mainColor.withAlpha(200),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5)),
+                      color: Colors.white,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,10 +89,6 @@ class _ChatMessageState extends State<ChatMessage> {
                         Expanded(
                           child: Container(),
                         ),
-                        RBtn(
-                          icon: FeatherIcons.paperclip,
-                          onPressed: () {},
-                        ),
                         SizedBox(
                           width: 15,
                         ),
@@ -117,41 +106,45 @@ class _ChatMessageState extends State<ChatMessage> {
                         padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
                         child: Column(
                           children: [
-                            MessageComponent(
+                            const MessageComponent(
                               message:
                                   "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
                             ),
-                            MessageComponent(
+                            const MessageComponent(
                               message: "Oi! Tudo bem?",
                             ),
-                            MessageComponent(
+                            const MessageComponent(
+                              status: MessageStatus.READ,
                               message: "Tudo ótimo, e vc?",
                               isMe: true,
                             ),
-                            MessageComponent(
+                            const MessageComponent(
+                              status: MessageStatus.SEND,
                               message:
                                   "Você pode editar essas fotos e enviar novamente para mim? ",
-                              file: MyFile(size: 41.36, name: " Fotos.zip"),
                               isMe: true,
                             ),
                             MessageComponent(
+                              file: MyFile(size: 65.36, name: " Fotos.zip"),
+                              isMe: true,
+                              status: MessageStatus.SEND,
+                            ),
+                            const MessageComponent(
                               message: "Claro!",
                             ),
-                            MessageComponent(
+                            const MessageComponent(
                               message: "Aqui estão as fotos editadas ",
-                              file: MyFile(
-                                  size: 65.36, name: " Fotos editadas.zip"),
                             ),
                             MessageComponent(
                               file: MyFile(
                                   size: 65.36, name: " Fotos editadas.zip"),
                             ),
-                            CustomDivider(
+                            const CustomDivider(
                               date: "3 dias atrás",
                             ),
-                            MessageComponent(
-                              file: MyFile(
-                                  size: 65.36, name: " Fotos editadas.zip"),
+                            const MessageComponent(
+                              status: MessageStatus.UNSEND,
+                              message: "Valeu!",
                               isMe: true,
                             ),
                           ],
@@ -159,23 +152,9 @@ class _ChatMessageState extends State<ChatMessage> {
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15)),
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: ChatTextField(
-                      prefix: RBtn2(
-                        icon: Icons.add,
-                        onPressed: () {},
-                      ),
-                      suffix: RBtn2(
-                        icon: FeatherIcons.send,
-                        onPressed: () {},
-                      ),
-                      hintText: "Escreva uma mensagem...",
-                    ),
-                  ),
+                  ChatTextField(
+                    hintText: "Escreva uma mensagem...",
+                  )
                 ],
               ),
             ),

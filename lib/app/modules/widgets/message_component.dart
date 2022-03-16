@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/file.dart';
+import 'package:weellu_web/app/data/models/msg_model_list.dart';
 
 class MessageComponent extends StatelessWidget {
   final bool isMe;
   final String message;
   final MyFile file;
+  final MessageStatus status;
 
-  const MessageComponent({Key key, this.isMe = false, this.message, this.file})
-      : super(key: key);
+  const MessageComponent({
+    Key key,
+    this.isMe = false,
+    this.message,
+    this.file,
+    this.status,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width <= 500;
+
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       child: Row(
@@ -43,52 +51,7 @@ class MessageComponent extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 decoration: BoxDecoration(
-                  color: isMe ? Colors.white : Config.colors.mainColor,
-                  boxShadow: [
-                    if (!isMe) ...[
-                      BoxShadow(
-                          color:
-                              Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10),
-                      BoxShadow(
-                          color:
-                              Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10),
-                      BoxShadow(
-                          color:
-                              Config.colors.shadowButtonColor.withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10)
-                    ] else ...[
-                      BoxShadow(
-                          color: Config.colors.shadowCurrentUserChat
-                              .withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10),
-                      BoxShadow(
-                          color: Config.colors.shadowCurrentUserChat
-                              .withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10),
-                      BoxShadow(
-                          color: Config.colors.shadowCurrentUserChat
-                              .withOpacity(.15),
-                          offset: const Offset(6, 6),
-                          blurRadius: 10),
-                    ],
-                  ],
-                  gradient: isMe
-                      ? null
-                      : LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                              Config.colors.mainColor,
-                              Config.colors.mainColor,
-                              Config.colors.mainColor,
-                            ]),
+                  color: isMe ? Color(4291617491) : Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: const Radius.circular(10),
                       bottomRight: const Radius.circular(10),
@@ -107,9 +70,7 @@ class MessageComponent extends StatelessWidget {
                       Text(
                         message,
                         style: Config.styles.primaryTextStyle.copyWith(
-                            color: isMe
-                                ? Config.colors.textColorMenu
-                                : Colors.white,
+                            color: isMe ? Colors.black : Colors.black,
                             fontSize: 13),
                       ),
                       if (file != null) ...[
@@ -120,7 +81,11 @@ class MessageComponent extends StatelessWidget {
                           file: file,
                           isMe: isMe,
                         ),
-                      ]
+                      ],
+                      if (isMe)
+                        FullCheck(
+                          status: status,
+                        )
                     ] else ...[
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,12 +96,12 @@ class MessageComponent extends StatelessWidget {
                               padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: Colors.white.withOpacity(.5),
+                                color: Config.colors.textBGColor.withOpacity(.5),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 FeatherIcons.file,
                                 size: 15,
-                                color: Colors.white,
+                                color: Config.colors.appBarMainColor,
                               ),
                             ),
                             SizedBox(
@@ -150,8 +115,8 @@ class MessageComponent extends StatelessWidget {
                                 style: Config.styles.primaryTextStyle.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: !isMe
-                                        ? Colors.white
-                                        : Config.colors.textColorMenu),
+                                        ? Config.colors.appBarMainColor
+                                        : Config.colors.appBarMainColor),
                               ),
                               Text(
                                 " ${file.size} Mb ",
@@ -159,29 +124,41 @@ class MessageComponent extends StatelessWidget {
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     color: !isMe
-                                        ? Colors.white
-                                        : Config.colors.textColorMenu),
+                                        ? Config.colors.appBarMainColor
+                                        : Config.colors.appBarMainColor),
                               )
                             ],
                           ),
                           if (isMe) ...[
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                    color: Config.colors.textColorMenu),
-                                color: Colors.white.withOpacity(.5),
-                              ),
-                              child: Icon(
-                                FeatherIcons.file,
-                                size: 15,
-                                color: Config.colors.textColorMenu,
-                              ),
-                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                            color: Colors.transparent),
+                                        color: Config.colors.appBarMainColor
+                                            .withOpacity(.5),
+                                      ),
+                                      child: Icon(
+                                        FeatherIcons.file,
+                                        size: 15,
+                                        color: Config.colors.appBarMainColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // FullCheck(
+                                //   status: status,
+                                // )
+                              ],
+                            )
                           ],
                         ],
                       )
@@ -196,7 +173,7 @@ class MessageComponent extends StatelessWidget {
                   size: 18,
                 ),
               ] else ...[
-                FullCheck()
+                SizedBox()
               ]
             ],
           ),
@@ -206,7 +183,8 @@ class MessageComponent extends StatelessWidget {
   }
 }
 
-class FullCheck extends StatelessWidget {
+class FullCheck extends StatefulWidget {
+  final MessageStatus status;
   final double size;
   final bool isChecked;
   final Color checkColor1, checkColor2;
@@ -215,27 +193,55 @@ class FullCheck extends StatelessWidget {
       this.size = 15,
       this.isChecked = false,
       this.checkColor1,
-      this.checkColor2})
+      this.checkColor2,
+      this.status})
       : super(key: key);
 
   @override
+  State<FullCheck> createState() => _FullCheckState();
+}
+
+class _FullCheckState extends State<FullCheck> {
+  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Icon(
-          FeatherIcons.check,
-          size: size,
-          color: checkColor1 ?? Config.colors.checkColor,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 5),
-          child: Icon(
-            FeatherIcons.check,
-            size: size,
-            color: checkColor2 ?? Config.colors.checkColor,
-          ),
-        )
-      ],
+    return Container(
+      alignment: Alignment.bottomCenter,
+      height: 20,
+      width: 20,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Config.colors.textBGColor),
+      child: Stack(
+        children: [
+          if (widget.status == MessageStatus.UNSEND) ...[
+            Icon(
+              FeatherIcons.clock,
+              size: widget.size,
+              color: Config.colors.checkRedColor,
+            )
+          ] else if (widget.status == MessageStatus.SEND) ...[
+            Icon(
+              FeatherIcons.check,
+              size: widget.size,
+              color: Config.colors.checkyellowColor,
+            ),
+          ] else if (widget.status == MessageStatus.READ) ...[
+            Icon(
+              FeatherIcons.check,
+              size: widget.size,
+              color: Config.colors.doubleCheckColor,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 5),
+              child: Icon(
+                FeatherIcons.check,
+                size: widget.size,
+                color: Config.colors.doubleCheckColor,
+              ),
+            )
+          ]
+        ],
+      ),
     );
   }
 }
@@ -247,33 +253,44 @@ class FileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+    return Column(
       children: [
-        if (isMe)
-          Icon(
-            FeatherIcons.file,
-            size: 13,
-            color: !isMe ? Colors.white : Config.colors.mainColor,
-          ),
-        Expanded(
-          flex: 2,
-          child: Text(
-            "(${file.size} Mb)${file.name}",
-            textAlign: isMe ? TextAlign.start : TextAlign.end,
-            overflow: TextOverflow.ellipsis,
-            style: Config.styles.primaryTextStyle.copyWith(
-                fontSize: 12,
-                color: !isMe ? Colors.white : Config.colors.mainColor),
-          ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment:
+              isMe ? MainAxisAlignment.start : MainAxisAlignment.end,
+          children: [
+            if (!isMe)
+              Icon(
+                FeatherIcons.file,
+                size: 13,
+                color: isMe
+                    ? Config.colors.appBarMainColor
+                    : Config.colors.appBarMainColor,
+              ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                "(${file.size} Mb)${file.name}",
+                textAlign: !isMe ? TextAlign.start : TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                style: Config.styles.primaryTextStyle.copyWith(
+                    fontSize: 12,
+                    color: !isMe
+                        ? Config.colors.appBarMainColor
+                        : Config.colors.appBarMainColor),
+              ),
+            ),
+            if (isMe)
+              Icon(
+                FeatherIcons.file,
+                size: 13,
+                color: isMe
+                    ? Config.colors.appBarMainColor
+                    : Config.colors.appBarMainColor,
+              ),
+          ],
         ),
-        if (isMe)
-          Icon(
-            FeatherIcons.file,
-            size: 13,
-            color: isMe ? Colors.white : Config.colors.mainColor,
-          ),
       ],
     );
   }

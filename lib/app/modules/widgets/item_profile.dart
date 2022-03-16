@@ -32,7 +32,7 @@ class ItemProfile extends StatelessWidget {
               style: Config.styles.primaryTextStyle
                   .copyWith(fontWeight: FontWeight.bold, fontSize: 13),
             ),
-            SizedBox(
+            const SizedBox(
               height: 2,
             ),
             Text(
@@ -50,28 +50,24 @@ class ItemProfile extends StatelessWidget {
                   if (msg.status != null &&
                       msg.status != MessageStatus.RECEIVED) ...[
                     msg.status == MessageStatus.SEND
-                        ? const Icon(
+                        ? Icon(
                             Icons.done,
-                            color: Colors.yellow,
+                            color: Config.colors.checkyellowColor,
                             size: 10,
                           )
                         : msg.status == MessageStatus.READ
-                            ? const Icon(
+                            ? Icon(
                                 Icons.done_all,
-                                color: Colors.green,
+                                color: Config.colors.doubleCheckColor,
                                 size: 10,
                               )
-                            : msg.status == MessageStatus.UNREAD
-                                ? const Icon(
-                                    Icons.done_all,
-                                    color: Colors.yellow,
+                            : msg.status == MessageStatus.UNSEND
+                                ? Icon(
+                                    FeatherIcons.clock,
+                                    color: Config.colors.checkRedColor,
                                     size: 10,
                                   )
-                                : const Icon(
-                                    FeatherIcons.clock,
-                                    color: Colors.red,
-                                    size: 10,
-                                  ),
+                                : SizedBox(),
                     const SizedBox(
                       width: 5,
                     )
@@ -81,39 +77,39 @@ class ItemProfile extends StatelessWidget {
                         ? Icon(
                             FeatherIcons.mic,
                             color: msg.status != MessageStatus.READ
-                                ? Colors.yellow
-                                : Colors.green,
+                                ? Config.colors.checkyellowColor
+                                : Config.colors.doubleCheckColor,
                             size: 10,
                           )
                         : msg.type == MessageType.WRITE
                             ? SvgIcon(
                                 size: 4,
                                 color: msg.status != MessageStatus.READ
-                                    ? Colors.yellow
-                                    : Colors.green,
+                                    ? Config.colors.checkyellowColor
+                                    : Config.colors.doubleCheckColor,
                                 asset: Config.assets.write,
                               )
                             : msg.type == MessageType.PHOTO
                                 ? Icon(
                                     FeatherIcons.image,
                                     color: msg.status != MessageStatus.READ
-                                        ? Colors.yellow
-                                        : Colors.green,
+                                        ? Config.colors.checkyellowColor
+                                        : Config.colors.doubleCheckColor,
                                     size: 10,
                                   )
                                 : msg.type == MessageType.VIDEO
                                     ? Icon(
                                         FeatherIcons.video,
                                         color: msg.status != MessageStatus.READ
-                                            ? Colors.yellow
-                                            : Colors.green,
+                                            ? Config.colors.checkyellowColor
+                                            : Config.colors.doubleCheckColor,
                                         size: 10,
                                       )
                                     : Icon(
                                         FeatherIcons.file,
                                         color: msg.status != MessageStatus.READ
-                                            ? Colors.yellow
-                                            : Colors.green,
+                                            ? Config.colors.checkyellowColor
+                                            : Config.colors.doubleCheckColor,
                                         size: 10,
                                       ),
                     const SizedBox(

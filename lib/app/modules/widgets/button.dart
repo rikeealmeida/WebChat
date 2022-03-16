@@ -135,9 +135,12 @@ class CustomElevatedButton extends StatelessWidget {
 }
 
 class RBtn extends StatelessWidget {
+  final Color bgColor;
+  final Color color;
   final IconData icon;
   final Function onPressed;
-  const RBtn({Key key, this.icon, this.onPressed}) : super(key: key);
+  const RBtn({Key key, this.icon, this.onPressed, this.color, this.bgColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -146,12 +149,13 @@ class RBtn extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       shadowColor: Config.colors.textColorMenu,
       child: InkWell(
+        onTap: onPressed,
         child: Container(
-          decoration: BoxDecoration(shape: BoxShape.circle),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
           padding: EdgeInsets.all(10),
           child: Icon(
             icon,
-            color: Config.colors.textColorMenu,
+            color: color,
           ),
         ),
       ),
@@ -160,33 +164,27 @@ class RBtn extends StatelessWidget {
 }
 
 class RBtn2 extends StatelessWidget {
+  final Color color;
   final IconData icon;
   final Function onPressed;
-  const RBtn2({Key key, this.icon, this.onPressed}) : super(key: key);
+  const RBtn2({Key key, this.icon, this.onPressed, this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 2),
       height: 30,
       width: 30,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Config.colors.appBarMainColor,
-            Config.colors.appBarMainColor,
-            Config.colors.appBarMainColor
-          ],
-        ),
         borderRadius: BorderRadius.circular(50),
       ),
       child: RawMaterialButton(
         onPressed: onPressed,
         child: Icon(
           icon,
-          color: Colors.white,
-          size: 20,
+          color: color,
+          size: 30,
         ),
       ),
     );
