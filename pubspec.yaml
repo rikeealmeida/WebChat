@@ -16,6 +16,12 @@ dependencies:
   lint: any
   font_awesome_flutter: ^9.0.0
   flutter_feather_icons: ^2.0.0+1
+  cloud_firestore: any
+  google_sign_in: any
+  firebase_storage: any
+  firebase_auth: any
+  firebase_core: any
+  path_provider: any
 
   flutter: 
     sdk: flutter

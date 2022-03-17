@@ -90,9 +90,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 }
               },
               child: Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
+                margin: const EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextField(
                   controller: controller,
@@ -122,75 +122,6 @@ class _ChatTextFieldState extends State<ChatTextField> {
           ),
         ],
       ),
-
-      // child: ChatTextField(
-      //   controller: controller,
-      //   prefix: Row(
-      //     children: [
-      //       RBtn2(
-      //         color: Config.colors.textColorMenu,
-      //         icon: FeatherIcons.smile,
-      //         onPressed: () {},
-      //       ),
-      //       SizedBox(
-      //         width: 3,
-      //       ),
-      //       RBtn2(
-      //         color: Config.colors.textColorMenu,
-      //         icon: FeatherIcons.paperclip,
-      //         onPressed: () {},
-      //       ),
-      //     ],
-      //   ),
-      //   suffix: RBtn(
-      //     bgColor: Config.colors.appBarMainColor,
-      //     color: Colors.white,
-      //     icon: isEmpty ? FeatherIcons.mic : FeatherIcons.send,
-      //     onPressed: () {},
-      //   ),
-      //   hintText: "Escreva uma mensagem...",
-      // ),
-    );
-
-    return Row(
-      children: [
-        if (widget.prefix != null) widget.prefix,
-        Expanded(
-          child: RawKeyboardListener(
-            focusNode: FocusNode(),
-            // ignore: void_checks
-            onKey: (event) {
-              if (event.isShiftPressed) {
-                if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                  return null;
-                }
-              } else if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                print(controller.text);
-
-                setState(() {
-                  controller.clear();
-                });
-              }
-            },
-            child: TextField(
-              maxLines: 4,
-              minLines: 1,
-              style: Config.styles.primaryTextStyle
-                  .copyWith(color: Config.colors.textColorMenu),
-              decoration: InputDecoration(
-                hintText: widget.hintText,
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                hintStyle: Config.styles.primaryTextStyle.copyWith(
-                  color: Config.colors.textColorMenu.withOpacity(.5),
-                ),
-              ),
-            ),
-          ),
-        ),
-        if (widget.suffix != null) widget.suffix,
-      ],
     );
   }
 }

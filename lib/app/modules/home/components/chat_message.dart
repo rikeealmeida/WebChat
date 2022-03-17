@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/file.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
@@ -20,6 +24,55 @@ class ChatMessage extends StatefulWidget {
 }
 
 class _ChatMessageState extends State<ChatMessage> {
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // User _currentUser;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseAuth.instance.authStateChanges().listen((user) {
+  //     setState(() {
+  //       _currentUser = user;
+  //     });
+  //   });
+  // }
+
+  // Future<User> _getUser() async {
+  //   if (_currentUser != null) {
+  //     return _currentUser;
+  //   }
+  //   try {
+  //     final GoogleSignInAccount googleSignInAccount =
+  //         await googleSignIn.signIn();
+  //     final GoogleSignInAuthentication googleSignInAuthentication =
+  //         await googleSignInAccount.authentication;
+
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //         idToken: googleSignInAuthentication.idToken,
+  //         accessToken: googleSignInAuthentication.accessToken);
+
+  //     final UserCredential authResult =
+  //         await FirebaseAuth.instance.signInWithCredential(credential);
+
+  //     final User user = authResult.user;
+  //     return user;
+  //   } catch (error) {}
+  // }
+
+  // void _sendMessage({String text, File imgFile}) async {
+  //   final User user = await _getUser();
+  //   if (user == null) {
+  //     _scaffoldKey.currentState.showSnackBar(
+  //       const SnackBar(
+  //         content: Text("Não foi possível fazer o login, tente novamente!"),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
