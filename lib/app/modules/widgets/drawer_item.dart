@@ -11,6 +11,7 @@ class DrawerListTile extends StatefulWidget {
     this.groupValue,
     this.value,
     this.onChanged,
+    this.isLogout,
   }) : super(key: key);
 
   final String title;
@@ -18,6 +19,7 @@ class DrawerListTile extends StatefulWidget {
   final IconData icon;
   final groupValue, value;
   final Function(dynamic value) onChanged;
+  final bool isLogout;
 
   @override
   State<DrawerListTile> createState() => _DrawerListTileState();
@@ -31,9 +33,12 @@ class _DrawerListTileState extends State<DrawerListTile> {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: InkWell(
-        onTap: () {
-          if (widget.onChanged != null) widget.onChanged(widget.groupValue);
-        },
+        onTap: widget.isLogout
+            ? widget.press
+            : () {
+                if (widget.onChanged != null)
+                  widget.onChanged(widget.groupValue);
+              },
         onHover: (value) {
           isHover = value;
           setState(() {});

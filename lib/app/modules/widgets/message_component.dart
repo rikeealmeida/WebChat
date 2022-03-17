@@ -6,16 +6,16 @@ import 'package:weellu_web/app/data/models/msg_model_list.dart';
 
 class MessageComponent extends StatelessWidget {
   final bool isMe;
-  final String message;
   final MyFile file;
-  final MessageStatus status;
+  final String status;
+  final Map<String, dynamic> data;
 
   const MessageComponent({
     Key key,
-    this.isMe = false,
-    this.message,
+    this.isMe,
     this.file,
     this.status,
+    this.data,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class MessageComponent extends StatelessWidget {
             CircleAvatar(
               radius: 12,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage(Config.assets.user1),
+              backgroundImage: NetworkImage(data['senderPhotoUrl']),
             ),
           Row(
             children: [
@@ -66,9 +66,9 @@ class MessageComponent extends StatelessWidget {
                   crossAxisAlignment:
                       !isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
                   children: [
-                    if (message != null) ...[
+                    if (data['text'] != null) ...[
                       Text(
-                        message,
+                        data['text'],
                         style: Config.styles.primaryTextStyle.copyWith(
                             color: isMe ? Colors.black : Colors.black,
                             fontSize: 13),
@@ -96,7 +96,8 @@ class MessageComponent extends StatelessWidget {
                               padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(6),
-                                color: Config.colors.textBGColor.withOpacity(.5),
+                                color:
+                                    Config.colors.textBGColor.withOpacity(.5),
                               ),
                               child: Icon(
                                 FeatherIcons.file,
@@ -184,7 +185,7 @@ class MessageComponent extends StatelessWidget {
 }
 
 class FullCheck extends StatefulWidget {
-  final MessageStatus status;
+  final String status;
   final double size;
   final bool isChecked;
   final Color checkColor1, checkColor2;
@@ -213,19 +214,19 @@ class _FullCheckState extends State<FullCheck> {
           color: Config.colors.textBGColor),
       child: Stack(
         children: [
-          if (widget.status == MessageStatus.UNSEND) ...[
+          if (widget.status == '0') ...[
             Icon(
               FeatherIcons.clock,
               size: widget.size,
               color: Config.colors.checkRedColor,
             )
-          ] else if (widget.status == MessageStatus.SEND) ...[
+          ] else if (widget.status == '1') ...[
             Icon(
               FeatherIcons.check,
               size: widget.size,
               color: Config.colors.checkyellowColor,
             ),
-          ] else if (widget.status == MessageStatus.READ) ...[
+          ] else if (widget.status == '2') ...[
             Icon(
               FeatherIcons.check,
               size: widget.size,

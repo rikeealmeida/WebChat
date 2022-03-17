@@ -9,12 +9,18 @@ import 'package:weellu_web/app/constants/config.dart';
 import 'button.dart';
 
 class ChatTextField extends StatefulWidget {
+  final Function({String text}) sendMessage;
   final TextEditingController controller;
   final Widget prefix, suffix;
   final hintText;
 
   const ChatTextField(
-      {Key key, this.prefix, this.suffix, this.hintText, this.controller})
+      {Key key,
+      this.prefix,
+      this.suffix,
+      this.hintText,
+      this.controller,
+      this.sendMessage})
       : super(key: key);
 
   @override
@@ -24,6 +30,8 @@ class ChatTextField extends StatefulWidget {
 class _ChatTextFieldState extends State<ChatTextField> {
   bool isEmpty = true;
   final controller = TextEditingController();
+  FocusNode myFocusNode;
+
   @override
   void initState() {
     controller.addListener(() {
@@ -38,11 +46,14 @@ class _ChatTextFieldState extends State<ChatTextField> {
       }
     });
     super.initState();
+
+    myFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     controller.dispose();
+    myFocusNode.dispose();
     super.dispose();
   }
 
@@ -74,40 +85,54 @@ class _ChatTextFieldState extends State<ChatTextField> {
           ),
           if (widget.prefix != null) widget.prefix,
           Expanded(
-            child: RawKeyboardListener(
-              focusNode: FocusNode(),
-              // ignore: void_checks
-              onKey: (event) {
-                if (event.isShiftPressed) {
-                  if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                    return false;
-                  }
-                } else if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-                  print(controller.text);
+            // child: RawKeyboardListener(
+            //   focusNode: FocusNode(),
+            //   // ignore: void_checks
+            //   onKey: (event) {
+            //     if (event.isShiftPressed) {
+            //       if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+            //         return false;
+            //       }
+            //     } else if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
+            //       widget.sendMessage(text: controller.text);
+            //       controller.clear();
+            //       setState(() {
+            //         isEmpty = true;
+            //       });
+            //     }
+            //   },
+            child: Container(
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10)),
+              child: TextField(
+                focusNode: myFocusNode,
+                controller: controller,
+                onChanged: (text) {
                   setState(() {
-                    controller.clear();
+                    isEmpty = !text.isNotEmpty;
                   });
-                }
-              },
-              child: Container(
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  controller: controller,
-                  maxLines: 4,
-                  minLines: 1,
-                  style: Config.styles.primaryTextStyle
-                      .copyWith(color: Config.colors.textColorMenu),
-                  decoration: InputDecoration(
-                    hintText: widget.hintText,
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    hintStyle: Config.styles.primaryTextStyle.copyWith(
-                      color: Config.colors.textColorMenu.withOpacity(.8),
-                    ),
+                },
+                onSubmitted: (text) {
+                  widget.sendMessage(text: controller.text);
+                  setState(() {
+                    isEmpty = true;
+                  });
+                  controller.clear();
+                  myFocusNode.requestFocus();
+                },
+                maxLines: 1,
+                minLines: 1,
+                style: Config.styles.primaryTextStyle
+                    .copyWith(color: Config.colors.textColorMenu),
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  hintStyle: Config.styles.primaryTextStyle.copyWith(
+                    color: Config.colors.textColorMenu.withOpacity(.8),
                   ),
                 ),
               ),
@@ -115,11 +140,19 @@ class _ChatTextFieldState extends State<ChatTextField> {
           ),
           if (widget.suffix != null) widget.suffix,
           RBtn(
-            bgColor: Config.colors.appBarMainColor,
-            color: Colors.white,
-            icon: isEmpty ? FeatherIcons.mic : FeatherIcons.send,
-            onPressed: () {},
-          ),
+              bgColor: Config.colors.appBarMainColor,
+              color: Colors.white,
+              icon: isEmpty ? FeatherIcons.mic : FeatherIcons.send,
+              onPressed: isEmpty
+                  ? () {}
+                  : () {
+                      widget.sendMessage(text: controller.text);
+                      setState(() {
+                        isEmpty = true;
+                      });
+                      controller.clear();
+                      myFocusNode.requestFocus();
+                    }),
         ],
       ),
     );

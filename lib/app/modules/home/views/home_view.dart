@@ -23,7 +23,6 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    print(width);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             if (width > 1072)
-              Expanded(
+             const Expanded(
                 flex: 8,
                 child: ChatMessage(),
               ),

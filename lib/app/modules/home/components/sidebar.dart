@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +18,23 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
+  GoogleAuthProvider authProvider = GoogleAuthProvider();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User _currentUser;
+  bool loginEnabled = true;
+  bool logoutEnabled = false;
   var selectValue = MenuItemSelect.HOME;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      setState(() {
+        _currentUser = user;
+      });
+    });
+  }
+
   onChanged(val) {
     selectValue = val;
     setState(() {});
@@ -83,9 +100,9 @@ class _SideBarState extends State<SideBar> {
                     Container(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: const Image(
-                          image: AssetImage(
-                            "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png",
+                        child: Image(
+                          image: NetworkImage(
+                            _currentUser == null ? "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png" : _currentUser.photoURL,
                           ),
                         ),
                       ),
@@ -100,8 +117,8 @@ class _SideBarState extends State<SideBar> {
                       margin: const EdgeInsets.only(
                         top: 10,
                       ),
-                      child: const Text(
-                        "Henrique Almeida dos Santos",
+                      child: Text(
+                        _currentUser == null ? "Olá" : _currentUser.displayName,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),
@@ -112,6 +129,7 @@ class _SideBarState extends State<SideBar> {
                   ],
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Início",
                   icon: Icons.home,
                   groupValue: MenuItemSelect.HOME,
@@ -120,6 +138,7 @@ class _SideBarState extends State<SideBar> {
                   onChanged: onChanged,
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Chats",
                   icon: Icons.chat,
                   groupValue: MenuItemSelect.CHAT,
@@ -128,6 +147,7 @@ class _SideBarState extends State<SideBar> {
                   onChanged: onChanged,
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Contatos",
                   icon: Icons.people,
                   groupValue: MenuItemSelect.CONTACTS,
@@ -136,6 +156,7 @@ class _SideBarState extends State<SideBar> {
                   onChanged: onChanged,
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Shopping",
                   icon: Icons.shopping_cart,
                   groupValue: MenuItemSelect.SHOPPING,
@@ -144,6 +165,7 @@ class _SideBarState extends State<SideBar> {
                   onChanged: onChanged,
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Notificações",
                   icon: Icons.notifications,
                   groupValue: MenuItemSelect.NOTIIFICATIONS,
@@ -152,6 +174,7 @@ class _SideBarState extends State<SideBar> {
                   onChanged: onChanged,
                 ),
                 DrawerListTile(
+                  isLogout: false,
                   title: "Configurações",
                   icon: Icons.settings,
                   groupValue: MenuItemSelect.SETTINGS,
@@ -162,12 +185,41 @@ class _SideBarState extends State<SideBar> {
               ],
             ),
           ),
-          DrawerListTile(
-            title: "Deslogar",
-            icon: Icons.logout_outlined,
-            press: () {},
-            value: selectValue,
-          ),
+          loginEnabled
+              ? DrawerListTile(
+                  isLogout: true,
+                  title: "logar",
+                  icon: Icons.login_outlined,
+                  press: loginEnabled
+                      ? () {
+                          FirebaseAuth.instance
+                              .signInWithPopup(GoogleAuthProvider());
+                          setState(() {
+                            loginEnabled = false;
+                            logoutEnabled = true;
+                          });
+                        }
+                      : null,
+                  value: selectValue,
+                )
+              : SizedBox(),
+          logoutEnabled
+              ? DrawerListTile(
+                  isLogout: true,
+                  title: "Deslogar",
+                  icon: Icons.logout_outlined,
+                  press: logoutEnabled
+                      ? () {
+                          FirebaseAuth.instance.signOut();
+                          setState(() {
+                            logoutEnabled = false;
+                            loginEnabled = true;
+                          });
+                        }
+                      : null,
+                  value: selectValue,
+                )
+              : SizedBox(),
         ],
       ),
     );

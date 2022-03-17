@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:weellu_web/app/constants/config.dart';
 
 class FoldedItem extends StatefulWidget {
-  const FoldedItem({
+   FoldedItem({
     Key key,
     // For selecting those three line once press "Command+D"
-
+    this.isLogout,
     this.icon,
     this.groupValue,
     this.value,
@@ -15,7 +15,8 @@ class FoldedItem extends StatefulWidget {
   final IconData icon;
   final groupValue, value;
   final Function(dynamic value) onChanged;
-  final Function(dynamic theme) onTap;
+  final Function onTap;
+   bool isLogout = false;
 
   @override
   State<FoldedItem> createState() => _FoldedItemState();
@@ -29,9 +30,12 @@ class _FoldedItemState extends State<FoldedItem> {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: InkWell(
-        onTap: () {
-          if (widget.onChanged != null) widget.onChanged(widget.groupValue);
-        },
+        onTap: widget.isLogout
+            ? widget.onTap
+            : () {
+                if (widget.onChanged != null)
+                  widget.onChanged(widget.groupValue);
+              },
         onHover: (value) {
           isHover = value;
           setState(() {});

@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:weellu_web/app/constants/config.dart';
-import 'package:weellu_web/app/data/models/file.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
 import 'package:weellu_web/app/modules/widgets/chat_text_field.dart';
 import 'package:weellu_web/app/modules/widgets/message_component.dart';
@@ -24,11 +26,13 @@ class ChatMessage extends StatefulWidget {
 }
 
 class _ChatMessageState extends State<ChatMessage> {
-  final GoogleSignIn googleSignIn = GoogleSignIn();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  GoogleAuthProvider authProvider = GoogleAuthProvider();
+  FirebaseAuth auth = FirebaseAuth.instance;
   User _currentUser;
-
+  
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -43,25 +47,45 @@ class _ChatMessageState extends State<ChatMessage> {
     if (_currentUser != null) {
       return _currentUser;
     }
-    try {
+
+    if (kIsWeb) {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithPopup(authProvider);
+
+        _currentUser = userCredential.user;
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
       final GoogleSignInAccount googleSignInAccount =
           await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
+        final AuthCredential credential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken);
+          accessToken: googleSignInAuthentication.accessToken,
+        );
+        try {
+          final UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final UserCredential authResult =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-
-      final User user = authResult.user;
-      return user;
-    } catch (error) {}
+          _currentUser = userCredential.user;
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+          } else if (e.code == 'invalid-credential') {}
+        } catch (e) {}
+      }
+    }
+    return _currentUser;
   }
 
-  void _sendMessage({String text, File imgFile}) async {
+  void _sendMessage({String text}) async {
     final User user = await _getUser();
     if (user == null) {
       _scaffoldKey.currentState.showSnackBar(
@@ -71,6 +95,17 @@ class _ChatMessageState extends State<ChatMessage> {
         ),
       );
     }
+
+    Map<String, dynamic> data = {
+      "uid": user.uid,
+      "senderName": user.displayName,
+      "senderPhotoUrl": user.photoURL,
+      "time": Timestamp.now(),
+      "status": '1'
+    };
+
+    if (text != null) data['text'] = text;
+    FirebaseFirestore.instance.collection('messages').add(data);
   }
 
   @override
@@ -78,6 +113,7 @@ class _ChatMessageState extends State<ChatMessage> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width <= 500;
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -153,60 +189,89 @@ class _ChatMessageState extends State<ChatMessage> {
                     ),
                   ),
                   Expanded(
-                    child: SingleChildScrollView(
-                      controller: ScrollController(),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
-                        child: Column(
-                          children: [
-                            const MessageComponent(
-                              message:
-                                  "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
-                            ),
-                            const MessageComponent(
-                              message: "Oi! Tudo bem?",
-                            ),
-                            const MessageComponent(
-                              status: MessageStatus.READ,
-                              message: "Tudo ótimo, e vc?",
-                              isMe: true,
-                            ),
-                            const MessageComponent(
-                              status: MessageStatus.SEND,
-                              message:
-                                  "Você pode editar essas fotos e enviar novamente para mim? ",
-                              isMe: true,
-                            ),
-                            MessageComponent(
-                              file: MyFile(size: 65.36, name: " Fotos.zip"),
-                              isMe: true,
-                              status: MessageStatus.SEND,
-                            ),
-                            const MessageComponent(
-                              message: "Claro!",
-                            ),
-                            const MessageComponent(
-                              message: "Aqui estão as fotos editadas ",
-                            ),
-                            MessageComponent(
-                              file: MyFile(
-                                  size: 65.36, name: " Fotos editadas.zip"),
-                            ),
-                            const CustomDivider(
-                              date: "3 dias atrás",
-                            ),
-                            const MessageComponent(
-                              status: MessageStatus.UNSEND,
-                              message: "Valeu!",
-                              isMe: true,
-                            ),
-                          ],
-                        ),
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('messages')
+                            .orderBy('time')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            default:
+                              List<DocumentSnapshot> documents =
+                                  snapshot.data.docs.reversed.toList();
+
+                              return ListView.builder(
+                                  reverse: true,
+                                  itemCount: documents.length,
+                                  itemBuilder: (context, index) {
+                                    return MessageComponent(
+                                      isMe: documents[index].get('uid') ==
+                                          _currentUser?.uid,
+                                      status: documents[index].get('status'),
+                                      data: documents[index].data(),
+                                    );
+                                  });
+                          }
+                        },
                       ),
+                      // child: Column(
+                      //   children: [
+                      //     const MessageComponent(
+                      //       message:
+                      //           "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
+                      //     ),
+                      //     const MessageComponent(
+                      //       message: "Oi! Tudo bem?",
+                      //     ),
+                      //     const MessageComponent(
+                      //       status: MessageStatus.READ,
+                      //       message: "Tudo ótimo, e vc?",
+                      //       isMe: true,
+                      //     ),
+                      //     const MessageComponent(
+                      //       status: MessageStatus.SEND,
+                      //       message:
+                      //           "Você pode editar essas fotos e enviar novamente para mim? ",
+                      //       isMe: true,
+                      //     ),
+                      //     MessageComponent(
+                      //       file: MyFile(size: 65.36, name: " Fotos.zip"),
+                      //       isMe: true,
+                      //       status: MessageStatus.SEND,
+                      //     ),
+                      //     const MessageComponent(
+                      //       message: "Claro!",
+                      //     ),
+                      //     const MessageComponent(
+                      //       message: "Aqui estão as fotos editadas ",
+                      //     ),
+                      //     MessageComponent(
+                      //       file: MyFile(
+                      //           size: 65.36, name: " Fotos editadas.zip"),
+                      //     ),
+                      //     const CustomDivider(
+                      //       date: "3 dias atrás",
+                      //     ),
+                      //     const MessageComponent(
+                      //       status: MessageStatus.UNSEND,
+                      //       message: "Valeu!",
+                      //       isMe: true,
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                   ),
+                  _isLoading ? const LinearProgressIndicator() : Container(),
                   ChatTextField(
-                    hintText: "Escreva uma mensagem...",
+                    sendMessage: _sendMessage,
+                    hintText: "Escreva uma mensagem... ",
                   )
                 ],
               ),
