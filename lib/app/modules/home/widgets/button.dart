@@ -151,8 +151,9 @@ class RBtn extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Container(
+          height: 40,
+          width: 40,
           decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
-          padding: EdgeInsets.all(10),
           child: Icon(
             icon,
             color: color,

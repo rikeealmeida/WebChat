@@ -39,7 +39,7 @@ class _CustomSearchState extends State<CustomSearch> {
                 ),
                 hintStyle: Config.styles.primaryTextStyle
                     .copyWith(color: Config.colors.textColorMenu),
-                hintText: "Search",
+                hintText: "Pesquisar",
                 border: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),

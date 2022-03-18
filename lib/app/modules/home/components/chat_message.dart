@@ -11,6 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
 import 'package:weellu_web/app/modules/home/widgets/button.dart';
+import 'package:weellu_web/app/modules/home/widgets/button.dart';
 import 'package:weellu_web/app/modules/home/widgets/chat_text_field.dart';
 import 'package:weellu_web/app/modules/home/widgets/message_component.dart';
 
@@ -153,7 +154,7 @@ class _ChatMessageState extends State<ChatMessage> {
                 children: [
                   Container(
                     padding:
-                        EdgeInsets.fromLTRB(isMobile ? 10 : 35, 20, 30, 15),
+                        EdgeInsets.fromLTRB(isMobile ? 10 : 5, 5, 5, 5),
                     decoration: BoxDecoration(
                       color: Colors.white,
                     ),
@@ -190,38 +191,38 @@ class _ChatMessageState extends State<ChatMessage> {
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(40, 20, 0, 0),
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('messages')
-                            .orderBy('time')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                            case ConnectionState.waiting:
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            default:
-                              List<DocumentSnapshot> documents =
-                                  snapshot.data.docs.reversed.toList();
+                      // padding: EdgeInsets.fromLTRB(40, 20, 0, 0),
+                      // child: StreamBuilder<QuerySnapshot>(
+                      //   stream: FirebaseFirestore.instance
+                      //       .collection('messages')
+                      //       .orderBy('time')
+                      //       .snapshots(),
+                      //   builder: (context, snapshot) {
+                      //     switch (snapshot.connectionState) {
+                      //       case ConnectionState.none:
+                      //       case ConnectionState.waiting:
+                      //         return Center(
+                      //           child: CircularProgressIndicator(),
+                      //         );
+                      //       default:
+                      //         List<DocumentSnapshot> documents =
+                      //             snapshot.data.docs.reversed.toList();
 
-                              return ListView.builder(
-                                  padding: EdgeInsets.only(right: 30),
-                                  reverse: true,
-                                  itemCount: documents.length,
-                                  itemBuilder: (context, index) {
-                                    return MessageComponent(
-                                      isMe: documents[index].get('uid') ==
-                                          _currentUser?.uid,
-                                      status: documents[index].get('status'),
-                                      data: documents[index].data(),
-                                    );
-                                  });
-                          }
-                        },
-                      ),
+                      //         return ListView.builder(
+                      //             padding: EdgeInsets.only(right: 30),
+                      //             reverse: true,
+                      //             itemCount: documents.length,
+                      //             itemBuilder: (context, index) {
+                      //               return MessageComponent(
+                      //                 isMe: documents[index].get('uid') ==
+                      //                     _currentUser?.uid,
+                      //                 status: documents[index].get('status'),
+                      //                 data: documents[index].data(),
+                      //               );
+                      //             });
+                      //     }
+                      //   },
+                      // ),
                       // child: Column(
                       //   children: [
                       //     const MessageComponent(
@@ -271,7 +272,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   ),
                   _isLoading ? const LinearProgressIndicator() : Container(),
                   ChatTextField(
-                    sendMessage: _sendMessage,
+                    // sendMessage: _sendMessage,
                     hintText: "Escreva uma mensagem... ",
                   )
                 ],

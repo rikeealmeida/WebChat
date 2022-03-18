@@ -15,7 +15,7 @@ class ItemProfile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
-          maxRadius: 30,
+          maxRadius: 25,
           backgroundColor: Colors.white,
           backgroundImage: AssetImage(msg.profile_asset),
         ),

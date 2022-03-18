@@ -46,51 +46,6 @@ class _SideBarState extends State<SideBar> {
           Expanded(
             child: Column(
               children: [
-                Container(
-                    decoration: BoxDecoration(
-                        color: Config.colors.mainColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 3,
-                              spreadRadius: .2,
-                              color: Colors.black.withAlpha(100))
-                        ]),
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(
-                        top: 20, bottom: 10, left: 7, right: 7),
-                    child: const Text(
-                      "Weellu",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
-                    )),
-                // Row(
-                //   children: [
-                //     Container(
-                //       margin:
-                //           const EdgeInsets.only(top: 20, left: 14, bottom: 10),
-                //       child: ClipRRect(
-                //         borderRadius: BorderRadius.circular(50),
-                //         child: const Image(
-                //           image: AssetImage(
-                //             "assets/images/5.png",
-                //           ),
-                //         ),
-                //       ),
-                //       height: 40,
-                //       width: 40,
-                //       decoration: BoxDecoration(
-                //         color: Colors.transparent,
-                //         borderRadius: BorderRadius.circular(50),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                const Divider(
-                  color: Colors.white,
-                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -117,7 +72,9 @@ class _SideBarState extends State<SideBar> {
                         top: 10,
                       ),
                       child: Text(
-                        _currentUser == null ? "Bem vindo!" : "Bem vindo!\n${_currentUser.displayName.toUpperCase()}",
+                        _currentUser == null
+                            ? "Bem vindo!"
+                            : "Bem vindo!\n${_currentUser.displayName.toUpperCase()}",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),

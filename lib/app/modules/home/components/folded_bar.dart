@@ -54,7 +54,7 @@ class _FoldedBarState extends State<FoldedBar> {
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 20, bottom: 20),
+                    margin: const EdgeInsets.only(top: 20, bottom: 10),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image(

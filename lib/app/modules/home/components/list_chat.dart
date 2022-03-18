@@ -7,6 +7,7 @@ import 'package:weellu_web/app/modules/home/widgets/button.dart';
 import 'package:weellu_web/app/modules/home/widgets/cdropdown.dart';
 import 'package:weellu_web/app/modules/home/widgets/csearch.dart';
 import 'package:weellu_web/app/modules/home/widgets/msg_item_list.dart';
+import 'package:weellu_web/app/modules/home/widgets/search_box.dart';
 
 class ListChat extends StatefulWidget {
   const ListChat({Key key, this.onOpenMenu}) : super(key: key);
@@ -17,7 +18,7 @@ class ListChat extends StatefulWidget {
 }
 
 class _ListChatState extends State<ListChat> {
-  String recentValue = "Mais recentes";
+  String recentValue = "Recentes";
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -38,39 +39,34 @@ class _ListChatState extends State<ListChat> {
               ),
               child: Column(children: [
                 Container(
-                  padding: const EdgeInsets.only(top: 10, left: 25, right: 25),
-                  child: Column(
+                  padding: const EdgeInsets.only(top: 10, left: 25, right: 25,bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Text(
+                        "Mensagens",
+                        style: Config.styles.primaryTextStyle.copyWith(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      Stack(
+                        alignment: AlignmentDirectional.centerEnd,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Mensagens",
-                                style: Config.styles.primaryTextStyle.copyWith(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
-                              CustomDropDown(
-                                items: const ["Mais recentes", "Mais antigas"],
-                                onChanged: (e) {
-                                  recentValue = e;
-                                  setState(() {});
-                                },
-                                value: recentValue,
-                              ),
-                            ],
+                          Container(
+                            margin: EdgeInsets.only(right: 35),
+                            child: CustomDropDown(
+                              items: const ["Recentes", "Antigas"],
+                              onChanged: (e) {
+                                recentValue = e;
+                                setState(() {});
+                              },
+                              value: recentValue,
+                            ),
+                          ),
+                          Container(
+                            child: SearchBox(),
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const CustomSearch(),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      )
                     ],
                   ),
                 ),
