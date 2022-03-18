@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:weellu_web/app/constants/config.dart';
-
-import '../../widgets/drawer_item.dart';
+import 'package:weellu_web/app/modules/home/widgets/drawer_item.dart';
 
 class SideBar extends StatefulWidget {
   final Function onOpenMenu;
@@ -102,7 +99,9 @@ class _SideBarState extends State<SideBar> {
                         borderRadius: BorderRadius.circular(50),
                         child: Image(
                           image: NetworkImage(
-                            _currentUser == null ? "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png" : _currentUser.photoURL,
+                            _currentUser == null
+                                ? "assets/images/png-transparent-minecraft-sonic-mania-pixel-art-sonic-the-hedgehog-cartoon-character-pixel-art-game-text-sonic-the-hedgehog.png"
+                                : _currentUser.photoURL,
                           ),
                         ),
                       ),
@@ -118,7 +117,7 @@ class _SideBarState extends State<SideBar> {
                         top: 10,
                       ),
                       child: Text(
-                        _currentUser == null ? "Olá" : _currentUser.displayName,
+                        _currentUser == null ? "Bem vindo!" : "Bem vindo!\n${_currentUser.displayName.toUpperCase()}",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                       ),

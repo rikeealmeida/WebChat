@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:weellu_web/app/constants/config.dart';
-import 'package:weellu_web/app/modules/widgets/svg_icon.dart';
-import '../../data/models/msg_model_list.dart';
+import 'package:weellu_web/app/data/models/msg_model_list.dart';
+import 'package:weellu_web/app/modules/home/widgets/svg_icon.dart';
 
 class ItemProfile extends StatelessWidget {
   const ItemProfile({Key key, this.msg}) : super(key: key);

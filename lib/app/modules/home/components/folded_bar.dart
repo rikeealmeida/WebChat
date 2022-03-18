@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weellu_web/app/modules/widgets/folded_item.dart';
+import 'package:weellu_web/app/modules/home/widgets/folded_item.dart';
 
 import '../../../constants/config.dart';
 

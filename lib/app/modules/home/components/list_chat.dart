@@ -3,11 +3,10 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
-
-import '../../widgets/button.dart';
-import '../../widgets/cdropdown.dart';
-import '../../widgets/csearch.dart';
-import '../../widgets/msg_item_list.dart';
+import 'package:weellu_web/app/modules/home/widgets/button.dart';
+import 'package:weellu_web/app/modules/home/widgets/cdropdown.dart';
+import 'package:weellu_web/app/modules/home/widgets/csearch.dart';
+import 'package:weellu_web/app/modules/home/widgets/msg_item_list.dart';
 
 class ListChat extends StatefulWidget {
   const ListChat({Key key, this.onOpenMenu}) : super(key: key);
@@ -226,17 +225,6 @@ class _ListChatState extends State<ListChat> {
                 ),
               ]),
             ),
-            if (widget.onOpenMenu != null)
-              Container(
-                margin: EdgeInsets.only(left: 25, top: 20),
-                child: InkWell(
-                  child: Icon(
-                    FeatherIcons.menu,
-                    size: 30,
-                  ),
-                  onTap: widget.onOpenMenu,
-                ),
-              )
           ],
         ),
         floatingActionButton: CustomButton(

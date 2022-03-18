@@ -10,11 +10,11 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
-import 'package:weellu_web/app/modules/widgets/chat_text_field.dart';
-import 'package:weellu_web/app/modules/widgets/message_component.dart';
+import 'package:weellu_web/app/modules/home/widgets/button.dart';
+import 'package:weellu_web/app/modules/home/widgets/chat_text_field.dart';
+import 'package:weellu_web/app/modules/home/widgets/message_component.dart';
 
-import '../../widgets/button.dart';
-import '../../widgets/item_profile.dart';
+import '../widgets/item_profile.dart';
 
 class ChatMessage extends StatefulWidget {
   const ChatMessage({
@@ -31,7 +31,7 @@ class _ChatMessageState extends State<ChatMessage> {
   GoogleAuthProvider authProvider = GoogleAuthProvider();
   FirebaseAuth auth = FirebaseAuth.instance;
   User _currentUser;
-  
+
   bool _isLoading = false;
   @override
   void initState() {
@@ -190,7 +190,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(40, 20, 30, 0),
+                      padding: EdgeInsets.fromLTRB(40, 20, 0, 0),
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('messages')
@@ -208,6 +208,7 @@ class _ChatMessageState extends State<ChatMessage> {
                                   snapshot.data.docs.reversed.toList();
 
                               return ListView.builder(
+                                  padding: EdgeInsets.only(right: 30),
                                   reverse: true,
                                   itemCount: documents.length,
                                   itemBuilder: (context, index) {

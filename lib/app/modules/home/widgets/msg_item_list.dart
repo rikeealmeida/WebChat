@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:weellu_web/app/constants/config.dart';
 import 'package:weellu_web/app/data/models/msg_model_list.dart';
 import 'package:weellu_web/app/modules/home/components/chat_message.dart';
-import 'package:weellu_web/app/modules/widgets/item_profile.dart';
+import 'package:weellu_web/app/modules/home/widgets/item_profile.dart';
 
 class MessageItemList extends StatefulWidget {
   final MessageModelList msg;
